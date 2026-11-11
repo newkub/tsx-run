@@ -1,5 +1,10 @@
 # tsx-run
 
+[![ci](https://github.com/newkub/tsx-run/actions/workflows/ci.yml/badge.svg)](https://github.com/newkub/tsx-run/actions/workflows/ci.yml)
+[![license: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![runtime: bun](https://img.shields.io/badge/runtime-bun-f9f1e1.svg)](https://bun.sh)
+[![solidjs](https://img.shields.io/badge/UI-SolidJS-1e88e5.svg)](https://solidjs.com)
+
 Instant SolidJS SPA runner for TSX files. One file. One command. Instant preview.
 
 ```powershell
@@ -15,6 +20,24 @@ No `package.json`, no config file, no HTML file, no `render()` call — just wri
 - UnoCSS `presetWind4` utilities + `presetIcons` (Iconify) — zero config
 - Bare imports resolved through [esm.sh](https://esm.sh) (`zod`, `date-fns`, `clsx`, …)
 - SPA only — no SSR, no backend, no router
+
+## Demo
+
+```text
+$ tsx-run run App.tsx
+
+  TSX Run
+
+  Runtime    SolidJS
+  Mode       SPA
+  CSS        UnoCSS (presetWind4)
+  Icons      Iconify
+  Entry      App.tsx
+
+  Local      http://localhost:3000/
+```
+
+Write `App.tsx` with a default-exported component — signals, UnoCSS classes, Iconify icons, and bare package imports all work with zero config. Editing the file hot-reloads the browser.
 
 ## Usage
 
