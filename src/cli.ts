@@ -1,9 +1,24 @@
 #!/usr/bin/env bun
+import { spawnSync } from 'node:child_process'
+import { createRequire } from 'node:module'
 import { cac } from 'cac'
 import pc from 'picocolors'
-import pkg from '../package.json' with { type: 'json' }
 import { run } from './commands/run'
 import { TsxRunError } from './shared/errors'
+
+const require = createRequire(import.meta.url)
+const pkg = require('../package.json') as { version: string }
+
+// solid-refresh HMR is unreliable when Vite runs under Bun
+// (solidjs/vite-plugin-solid#229), so the published JS entry hands
+// off to Node when one is on PATH. Source runs (bun src/cli.ts) and
+// missing-Node setups stay on Bun, where the server falls back to
+// full-reload updates.
+const script = process.argv[1]
+if (process.versions.bun && script !== undefined && !script.endsWith('.ts')) {
+	const child = spawnSync('node', [script, ...process.argv.slice(2)], { stdio: 'inherit' })
+	if (!child.error) process.exit(child.status ?? 1)
+}
 
 const cli = cac('tsx-run')
 

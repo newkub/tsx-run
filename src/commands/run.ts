@@ -1,3 +1,4 @@
+import { spawn } from 'node:child_process'
 import { relative, sep } from 'node:path'
 import pc from 'picocolors'
 import { resolveEntry } from './entry'
@@ -56,6 +57,6 @@ function openBrowser(url: string): void {
 			: process.platform === 'darwin'
 				? (['open', [url]] as const)
 				: (['xdg-open', [url]] as const)
-	Bun.spawn([cmd, ...args], { stdout: 'ignore', stderr: 'ignore' })
+	spawn(cmd, args, { stdio: 'ignore', detached: true }).unref()
 }
 

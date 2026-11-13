@@ -6,7 +6,7 @@ export default function App() {
   return (
     <main class="min-h-screen flex items-center justify-center bg-slate-950 text-white">
       <section class="space-y-4 text-center">
-        <h1 class="text-3xl font-bold">Hello TSX Run</h1>
+        <h1 class="text-3xl font-bold">Hello Node HMR v2</h1>
         <p class="text-slate-400">SolidJS + UnoCSS</p>
         <p>{format(new Date(), 'PP')}</p>
         <i class="i-mdi-home text-2xl" />

@@ -25,7 +25,10 @@ export async function createDevServer(options: DevServerOptions): Promise<Starte
 		indexHtmlPlugin(),
 		tsxRunPlugin({ entry: options.entry, entryUrl, pins: options.pins }),
 		solidLocalPlugin(),
-		solid(),
+		// solid-refresh HMR is unreliable when Vite runs under Bun
+		// (solidjs/vite-plugin-solid#229); under Bun fall back to
+		// full-reload updates instead of silent stale DOM.
+		solid({ hot: !process.versions.bun }),
 		UnoCSS(createUnoConfig()) as PluginOption,
 		esmShPlugin(options.pins),
 	]
@@ -42,6 +45,12 @@ export async function createDevServer(options: DevServerOptions): Promise<Starte
 			port: options.port,
 			host: options.host,
 			open: false,
+			// Bun's fs events are unreliable for chokidar on Windows — poll so
+			// HMR always fires.
+			watch: {
+				usePolling: true,
+				interval: 300,
+			},
 			fs: {
 				strict: true,
 				allow: [entryDir, PACKAGE_ROOT],
